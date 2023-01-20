@@ -1,13 +1,13 @@
 // SPDX-License-Identifier: MIT
 
-pragma solidity ^0.8.0;
+pragma solidity ^0.8.1;
 
 import "../node_modules/@openzeppelin/contracts/token/ERC721/ERC721.sol";
 import "../node_modules/@openzeppelin/contracts/utils/Counters.sol";
 
 contract ERC721Demo is ERC721 {
     using Counters for Counters.Counter;
-    
+
     address public contractOwner;
     address public minter;
     string private baseURI;

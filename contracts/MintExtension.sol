@@ -1,57 +1,70 @@
 // SPDX-License-Identifier: MIT
 
-pragma solidity ^0.8.0;
+pragma solidity ^0.8.1;
 
 import "./interfaces/ISlashCustomPlugin.sol";
 import "./libs/UniversalERC20.sol";
 import "../node_modules/@openzeppelin/contracts/utils/math/SafeMath.sol";
 import "../node_modules/@openzeppelin/contracts/access/Ownable.sol";
 
+/**
+ * interface
+ */
 interface IERC721Demo {
     function mint(address to) external returns (uint256);
 }
 
+/**
+ * MintExtension Contract
+ */
 contract MintExtension is ISlashCustomPlugin, Ownable {
     using SafeMath for uint256;
     using UniversalERC20 for IERC20;
-
+    // デモ用のNFTのコントラクトアドレスを格納する変数
     IERC721Demo private nftDemo;
 
     mapping(string => uint256) public purchaseInfo;
-    
-    function updateNftContractAddress(address nftContractAddress) external onlyOwner {
+
+    event TokenWithdrawn(address tokenContract, uint256 amount);
+
+    /**
+     * updateNftContractAddress fumction
+     */
+    function updateNftContractAddress(address nftContractAddress)
+        external
+        onlyOwner
+    {
         nftDemo = IERC721Demo(nftContractAddress);
     }
 
+    /**
+     * receivePayment function
+     */
     function receivePayment(
-        address receiveToken, 
+        address receiveToken,
         uint256 amount,
         string memory paymentId,
         string memory optional
     ) external payable override {
         require(amount > 0, "invalid amount");
         require(receiveToken != address(0), "invalid token");
-
-        IERC20(receiveToken).universalTransferFrom(
-            msg.sender,
-            owner(),
-            amount
-        );
+        // 呼び出し元からownerのアドレスにamount分だけ送信する。
+        IERC20(receiveToken).universalTransferFrom(msg.sender, owner(), amount);
         // do something
         afterReceived(paymentId, optional);
     }
 
-    function afterReceived(
-        string memory paymentId,
-        string memory
-    ) internal {
+    /**
+     * NFTを発行する。
+     */
+    function afterReceived(string memory paymentId, string memory) internal {
         uint256 tokenId = nftDemo.mint(tx.origin);
         purchaseInfo[paymentId] = tokenId;
     }
 
     function withdrawToken(address tokenContract) external onlyOwner {
         require(
-            IERC20(tokenContract).universalBalanceOf(address(this)) > 0, 
+            IERC20(tokenContract).universalBalanceOf(address(this)) > 0,
             "balance is zero"
         );
 
@@ -61,12 +74,10 @@ contract MintExtension is ISlashCustomPlugin, Ownable {
         );
 
         emit TokenWithdrawn(
-            tokenContract, 
+            tokenContract,
             IERC20(tokenContract).universalBalanceOf(address(this))
         );
-
     }
-    event TokenWithdrawn(address tokenContract, uint256 amount);
 
     /**
      * @dev Check if the contract is Slash Plugin
@@ -75,8 +86,12 @@ contract MintExtension is ISlashCustomPlugin, Ownable {
      * - Implement this function in the contract
      * - Return true
      */
-    function supportSlashExtensionInterface() external pure override returns (bool) {
+    function supportSlashExtensionInterface()
+        external
+        pure
+        override
+        returns (bool)
+    {
         return true;
     }
-
 }
