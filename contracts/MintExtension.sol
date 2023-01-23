@@ -1,11 +1,11 @@
 // SPDX-License-Identifier: MIT
 
-pragma solidity ^0.8.1;
+pragma solidity ^0.8.0;
 
 import "./interfaces/ISlashCustomPlugin.sol";
 import "./libs/UniversalERC20.sol";
-import "../node_modules/@openzeppelin/contracts/utils/math/SafeMath.sol";
-import "../node_modules/@openzeppelin/contracts/access/Ownable.sol";
+import "@openzeppelin/contracts/utils/math/SafeMath.sol";
+import "@openzeppelin/contracts/access/Ownable.sol";
 
 /**
  * interface

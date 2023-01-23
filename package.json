@@ -8,7 +8,8 @@
     "compile": "npx truffle compile",
     "build": "npx truffle build",
     "deploy:nft:fuji": "npx truffle migrate --f 2 --to 2 --network fuji",
-    "deploy:ex:fuji": "npx truffle migrate --f 1 --to 1 --network fuji"
+    "deploy:ex:fuji": "npx truffle migrate --f 1 --to 1 --network fuji",
+    "verify:ex:fuji": "npx truffle run verify MintExtension --network fuji"
   },
   "repository": {
     "type": "git",
@@ -25,6 +26,7 @@
     "@openzeppelin/contracts": "^4.8.1",
     "@truffle/hdwallet-provider": "^2.1.5",
     "dotenv": "^16.0.3",
-    "truffle-hdwallet-provider": "^1.0.17"
+    "truffle-hdwallet-provider": "^1.0.17",
+    "truffle-plugin-verify": "^0.6.1"
   }
 }

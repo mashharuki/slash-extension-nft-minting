@@ -5,10 +5,19 @@ const HDWalletProvider2 = require("@truffle/hdwallet-provider");
 
 const {
   HD_MNEMONIC,
+  SNOWTRACE_API_KEY
 } = process.env;
 
 
 module.exports = {
+  // plugin
+  plugins: [
+    'truffle-plugin-verify'
+  ],
+  // api keys for API
+  api_keys: {
+    snowtrace: SNOWTRACE_API_KEY
+  },
   networks: {
     goreli: {
       provider: () => new HDWalletProvider(HD_MNEMONIC, `https://eth-goerli.g.alchemy.com/v2/${ALCHEMY_GOERLI_API_KEY}`),
@@ -69,7 +78,7 @@ module.exports = {
   },
   compilers: {
     solc: {
-      version: "0.8.1",    
+      version: "0.8.0",    
       // docker: true,        
         settings: {          
           optimizer: {
