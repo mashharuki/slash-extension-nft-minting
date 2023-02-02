@@ -23,7 +23,7 @@ contract MintExtension is ISlashCustomPlugin, Ownable {
     // デモ用のNFTのコントラクトアドレスを格納する変数
     IERC721Demo private nftDemo;
 
-    mapping(string => uint256) public purchaseInfo;
+    mapping(string => string) public purchaseInfo;
 
     event TokenWithdrawn(address tokenContract, uint256 amount);
 
@@ -57,9 +57,11 @@ contract MintExtension is ISlashCustomPlugin, Ownable {
     /**
      * NFTを発行する。
      */
-    function afterReceived(string memory paymentId, string memory) internal {
+    function afterReceived(string memory paymentId, string memory optional)
+        internal
+    {
         uint256 tokenId = nftDemo.mint(tx.origin);
-        purchaseInfo[paymentId] = tokenId;
+        purchaseInfo[paymentId] = optional;
     }
 
     function withdrawToken(address tokenContract) external onlyOwner {

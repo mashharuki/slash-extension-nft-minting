@@ -68,3 +68,8 @@ result
 [https://testnet.snowtrace.io/tx/0x8510ed16e7f12a3f2726acccf172bfd6da2668b7ceffd6640050f343049ee958](https://testnet.snowtrace.io/tx/0x8510ed16e7f12a3f2726acccf172bfd6da2668b7ceffd6640050f343049ee958)
 
 ![](./assets/imgs/tx.png)
+
+## optional パラメータの中身を確認するためのコントラクト
+
+- [NFT Contract](https://testnet.snowtrace.io/address/0xCf92cf20D258C993B4cea4f6fAD35116Fb7211b3)
+- [Extention Contract](https://testnet.snowtrace.io/address/0x661FeB49c34995715cb94e698fACabC535CD934E)
